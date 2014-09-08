@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <title>poly</title>
+    <script src="jquery.js"></script>
+    <script src="jquery.flot.js"></script>
+
+    <script type="text/javascript" src="poly.js"></script>
+
+    <style type="text/css">
+        label {
+            font-family : "Lucida Console", Monaco, monospace;
+            display : block;
+        }
+
+    </style>
+
+</head>
+<body>
+    
+
+
+    <div id="canvas" style="width:800px; height:400px; float:left"></div>
+
+    <fieldset style="float:left">
+       
+        <label>y min: <input type="number" id="poly-min" value="-2" max="-0.1"> </label> 
+        <label>y max: <input type="number" id="poly-max" value="2" min="0"> </label>  
+        <label>шаг: <input type="number" id="poly-step" value="0.1" step="0.1" min="0.1"> </label> 
+         
+        <hr id="poly-plot-sep" />
+
+        <label> степень:<input type="number" id="poly-degree" value="3" min="0"> </label>
+
+        <hr id="poly-factor-sep" />
+
+
+</fieldset>
+</body>
