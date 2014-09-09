@@ -158,8 +158,10 @@ function bindEvents() {
     
     $("#canvas").bind("plotpan plotzoom",throttle( function(e, plot){
        var xaxis = plot.getAxes().xaxis;
-       $('#poly-min').val(xaxis.min);
-       $('#poly-max').val(xaxis.max);
+       var frac = options.step.toString().split('.')[1];
+       frac = (frac && frac.length) || 0;
+       $('#poly-min').val(+ xaxis.min.toFixed(frac));
+       $('#poly-max').val(+ xaxis.max.toFixed(frac));
        readOptions();
     }, 500))
 }
