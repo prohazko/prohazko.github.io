@@ -59,6 +59,7 @@ var options = {
     step: 1,
     factors: [1, 1, 1, 1]
 }
+var options_bckp = $.extend({}, options)
 
 var plotOptions = {
     series: {
@@ -164,6 +165,12 @@ function bindEvents() {
        $('#poly-max').val(+ xaxis.max.toFixed(frac));
        readOptions();
     }, 500))
+    
+    $("#stahp-the-madness").click(function(){
+       localStorage.setItem('plot-options', JSON.stringify(options_bckp));
+       loadOptions();
+       render();
+    });
 }
 
 
@@ -174,9 +181,7 @@ function saveOptions() {
 function loadOptions() {
     var opts = localStorage.getItem('plot-options');
     if (opts) {
-        opts =  JSON.parse(opts);
-        if( Math.abs( opts.max - opts.min ) > opts.step * 3 ) //opts are ok 
-            options = opts
+        options = JSON.parse(opts);
     }
     $('#poly-degree').val(options.degree);
     $('#poly-min').val(options.min);
