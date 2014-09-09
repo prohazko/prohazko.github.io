@@ -54,9 +54,9 @@ function poly(x, degree, as) {
 
 var options = {
     degree: 3,
-    min: -2,
-    max: 2,
-    step: 0.1,
+    min: -4,
+    max: 4,
+    step: 1,
     factors: [1, 1, 1, 1]
 }
 
