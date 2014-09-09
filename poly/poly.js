@@ -8,6 +8,17 @@
 */
 
 
+function polyHtml(degree, as){
+    //a_3x^3 + a_2x^2 + a_1x + a_0
+    var parts = []
+    for (var i = degree; i >= 0; i--) {
+        var a = " a<sub>" + i + "</sub>";
+        if(as) a = as[i];
+        parts.push( a + "x<sup>" + i + "</sup> ")
+    }
+    return parts.join(" + ")
+}
+
 
 function poly(x, degree, as) {
     if (degree < 0) throw 'invalid argument: as';
@@ -20,6 +31,7 @@ function poly(x, degree, as) {
     return y;
 }
 
+
 var options = {
     degree: 3,
     min: -2,
@@ -28,36 +40,40 @@ var options = {
     factors: [1, 1, 1, 1]
 }
 
+var plotOptions = {
+    series: {
+        lines: {
+            show: true
+        },
+        points: {
+            show: true
+        }
+    },
+    grid: {
+        hoverable: true,
+        clickable: true
+    },
+    zoom: {
+        interactive: true
+    },
+    pan: {
+        interactive: true
+    }
+};
+
 function render() {
     var poly1 = [];
-    for (var x = options.min; x < options.max; x += options.step) {
+    for (var x = options.min; x <= options.max; x += options.step) {
         poly1.push([x, poly(x, options.degree, options.factors)]);
     }
 
     $.plot("#canvas", [{
         data: poly1,
         lines: { show: true, fill: true }
-    }], {
-        series: {
-            lines: {
-                show: true
-            },
-            points: {
-                show: true
-            }
-        },
-        grid: {
-            hoverable: true,
-            clickable: true
-        },
-        zoom: {
-            interactive: true
-        },
-        pan: {
-            interactive: true
-        }
-    });
+    }], plotOptions);
 
+    $('#poly-view').html(polyHtml(options.degree));
+    $('#poly-view-factors').html(polyHtml(options.degree, options.factors));
 }
 
 function readOptions() {
@@ -120,6 +136,7 @@ function bindTooltip() {
             .fadeIn(200);
     });
 }
+
 
 function saveOptions() {
   localStorage.setItem('plot-options', JSON.stringify(options))
