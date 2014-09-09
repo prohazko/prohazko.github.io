@@ -172,7 +172,9 @@ function saveOptions() {
 function loadOptions() {
     var opts = localStorage.getItem('plot-options');
     if (opts) {
-        options = JSON.parse(opts)
+        opts =  JSON.parse(opts);
+        if( Math.abs( opts.max - opts.min ) > opts.step * 3 ) //opts are ok 
+            options = opts
     }
     $('#poly-degree').val(options.degree);
     $('#poly-min').val(options.min);
