@@ -7,6 +7,26 @@
  n  | a_nx^n + a_(n-1)x^(n-1) + ... + a_2x^2 + a_1x + a_0   
 */
 
+function throttle(fn, timeout, ctx) {
+    var timer, args, needInvoke;
+    return function() {
+        args = arguments;
+        needInvoke = true;
+        ctx = ctx || this;
+        if(!timer) {
+            (function() {
+                if(needInvoke) {
+                    fn.apply(ctx, args);
+                    needInvoke = false;
+                    timer = setTimeout(arguments.callee, timeout);
+                }
+                else {
+                    timer = null;
+                }
+            })();
+        }
+    };
+}
 
 function polyHtml(degree, as){
     //a_3x^3 + a_2x^2 + a_1x + a_0
@@ -114,7 +134,7 @@ function createFactorInputs() {
     }
 }
 
-function bindTooltip() {
+function bindEvents() {
     var $tooltip = $("<div>")
         .attr('id', 'tooltip')
         .css({
@@ -135,6 +155,13 @@ function bindTooltip() {
             .css({ top: item.pageY + 5, left: item.pageX + 5 })
             .fadeIn(200);
     });
+    
+    $("#canvas").bind("plotpan plotzoom",throttle( function(e, plot){
+       var xaxis = plot.getAxes().xaxis;
+       $('#poly-min').val(xaxis.min);
+       $('#poly-max').val(xaxis.max);
+       readOptions();
+    }, 500))
 }
 
 
@@ -159,7 +186,7 @@ $(function () {
 
     loadOptions();
     render();
-    bindTooltip();
+    bindEvents();
     createFactorInputs();
 
     $('#poly-degree').change(function () {
