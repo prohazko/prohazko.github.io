@@ -1,11 +1,14 @@
-﻿/*
- 0  | a_0
- 1  | a_1x + a_0
- 2  | a_2x^2 + a_1x + a_0
- 3  | a_3x^3 + a_2x^2 + a_1x + a_0
-   ...
- n  | a_nx^n + a_(n-1)x^(n-1) + ... + a_2x^2 + a_1x + a_0   
+﻿
+
+/*
+
+         Этот код был написан не мной - 
+                
+              он был написан демонами
+
+ 
 */
+
 
 function throttle(fn, timeout, ctx) {
     var timer, args, needInvoke;
@@ -62,9 +65,18 @@ var options = {
 var options_bckp = $.extend({}, options)
 
 var plotOptions = {
+    xaxis : {
+        tickSize : 1
+    },
+
     series: {
         lines: {
+            zero : true,
+            fill : false,
             show: true
+        },
+        bars : {
+          fill : false
         },
         points: {
             show: true
@@ -72,25 +84,33 @@ var plotOptions = {
     },
     grid: {
         hoverable: true,
-        clickable: true
+        clickable: true,
+        markings: [ { yaxis: { from: 0, to: 0 },   color : '#a1a1a1' }, 
+                    { xaxis: { from: 0, to: 0 },   color : '#a1a1a1' }]
     },
     zoom: {
         interactive: true
     },
     pan: {
         interactive: true
-    }
+    },
+    
 };
 
 function render() {
     var poly1 = [];
+    $('.poly-table').remove();
     for (var x = options.min; x <= options.max; x += options.step) {
-        poly1.push([x, poly(x, options.degree, options.factors)]);
+        var fx = poly(x, options.degree, options.factors)
+        poly1.push([x, fx]);
+        
+        $('<td>').text(x).addClass('poly-table').insertAfter('#poly-x')
+        $('<td>').text(fx.toFixed(2)).addClass('poly-table').insertAfter('#poly-fx')
     }
 
     $.plot("#canvas", [{
         data: poly1,
-        lines: { show: true, fill: true }
+        lines: { show: true, fill: false }
     }], plotOptions);
 
     $('#poly-view').html(polyHtml(options.degree));
@@ -127,7 +147,7 @@ function createFactorInputs() {
             .change(readFactors)
             .val(options.factors[n] || 1)
 
-        $('<label>').text('a' + n)
+        $('<label>').html('a<sub>' + n + '</sub>')
             .addClass('poly-factor')
             .css('display', 'block')
             .append($input)
