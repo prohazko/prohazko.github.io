@@ -3,47 +3,30 @@
     "width": 100,
     "categories": [
         {
-            "title": "Make me smile",
-            "cls": "btn-primary",
+            "title": "Quick Search",
+            "cls": "btn-default",
             "buttons": [
-                { "title": "Happy/Cheerful" },
-                { "title": "Kids" },
-                { "title": "Quirkly" },
-                { "title": "Trendy Advertising" },
-                { "title": "Cartoon" },
-                { "title": "Whistling" }
-            ]
-        },
-        {
-            "title": "Motivational & Buisness",
-            "cls": "btn-success",
-            "buttons": [
-                { "title": "Motivational" },
-                { "title": "Uplifiting/Positive" },
-                { "title": "Minimal" },
-                { "title": "Inspiring" },
-                { "title": "Corporate" },
-                { "title": "Technology" },
-                { "title": "Hopeful" },
-                { "title": "Creative" }
-            ]
-        },
-        {
-            "title": "Cinemativ Orchestral",
-            "cls": "btn-info",
-            "buttons": [
-                { "title": "Epic/Cinematic" },
-                { "title": "Movie Themes" },
-                { "title": "Hybrid" },
-                { "title": "Beatiful Cinematic" },
-                { "title": "Magical" },
-                { "title": "Playful/Whimsycal" },
-                { "title": "Heroic/Triumpant" },
-                { "title": "Danger/Tension" },
-                { "title": "Trailer Music" },
-                { "title": "Inspiring Cinematic" }, 
-                { "title": "Cinematic Rock" },
-                { "title": "Thoutful Mood" }
+                { "title": "Fashion Show", "color": "#1abc9c" },
+                { "title": "Hip-Hop" , "color": "#2ecc71" },
+                { "title": "Breakbeat" , "color": "#3498db" },
+
+                { "title": "Dubstep" , "color": "#16a085" },
+                { "title": "Chill out", "color": "#27ae60"  },
+                { "title": "Tech" , "color": "#2980b9" },
+                
+                { "title": "Sports", "color": "#ff8800"  },
+                { "title": "Action", "color": "#e67e22"  },
+                { "title": "Logo", "color": "#e74c3c"  },
+
+                { "title": "Folk/acoustic", "color": "#f39c12"  },
+                { "title": "Modern classic", "color": "#d35400"  },
+                { "title": "Trailer", "color": "#c0392b"  },
+
+                
+                { "title": "Christmas" , "color": "#9b59b6" },
+                { "title": "50% sale", "color": "#8e44ad"  },
+                { "title": "Sound effects", "color": "#9933cc"  }
+
             ]
         }
     ]

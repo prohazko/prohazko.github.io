@@ -30,6 +30,7 @@ ButtonStore.prototype.onload = function (stored) {
         category.cls = cat.cls;
         (cat.buttons || []).forEach(function (btn) {
             var button = new Button(category, btn.title);
+            if (btn.color) button.color = btn.color;
             category.buttons.push(button);
         }, this)
         this.root.categories.push(category)

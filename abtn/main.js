@@ -6,6 +6,7 @@ var initial = {
 function Button(category, title) {
     this.category = category;
     this.title = title;
+    this.color = null;
 }
 
 Button.prototype.render = function () {
@@ -15,6 +16,10 @@ Button.prototype.render = function () {
         .addClass('btn ' + cls)
         .width(width)
         .val(this.title);
+    if (this.color != null) {
+        this.$btn.css('background-color', this.color)
+        this.$btn.css('border-color', this.color)
+    } 
 
     this.category.$buttons.append(this.$btn)
 };
@@ -37,7 +42,7 @@ Category.prototype.render = function () {
     }.bind(this));
     this.root.$work.append(this.$header);
     this.root.$work.append(this.$buttons);
-    this.$header.append(this.$btnAdd);
+ //   this.$header.append(this.$btnAdd);
 
     this.buttons.forEach(function (btn) {
         btn.render();
