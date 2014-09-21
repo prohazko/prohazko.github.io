@@ -1,0 +1,64 @@
+#OS junk files
+[Tt]humbs.db
+*.DS_Store
+
+#Visual Studio files
+*.[Oo]bj
+*.pdb
+*.user
+*.aps
+*.pch
+*.vspscc
+*.vssscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.[Cc]ache
+*.ilk
+*.log
+*.sbr
+*.sdf
+*.opensdf
+ipch/
+obj/
+[Bb]in
+[Dd]ebug*/
+[Rr]elease*/
+Ankh.NoLoad
+.idea/
+
+#InstallShield
+[Ss]ingle[Ii]mage/
+[Dd][Vv][Dd]-5/
+[Ii]nterm/
+
+#Tooling
+_ReSharper*/
+*.resharper
+[Tt]est[Rr]esult*
+
+#Project files
+[Bb]uild/
+
+#Subversion files
+.svn
+
+# Office Temp Files
+~$*
+
+#node
+/bower_components/*
+bower_components/*
+
+/node_modules/*/node-modules/ 
+node_modules/*/node-modules/ 
+node_modules/*
+
+abtn/node_modules/*/node-modules/
+abtn/node_modules/*/node-modules/ 
+abtn/node_modules/*
+

@@ -1,0 +1,50 @@
+{
+    "columns": 3,
+    "width": 100,
+    "categories": [
+        {
+            "title": "Make me smile",
+            "cls": "btn-primary",
+            "buttons": [
+                { "title": "Happy/Cheerful" },
+                { "title": "Kids" },
+                { "title": "Quirkly" },
+                { "title": "Trendy Advertising" },
+                { "title": "Cartoon" },
+                { "title": "Whistling" }
+            ]
+        },
+        {
+            "title": "Motivational & Buisness",
+            "cls": "btn-success",
+            "buttons": [
+                { "title": "Motivational" },
+                { "title": "Uplifiting/Positive" },
+                { "title": "Minimal" },
+                { "title": "Inspiring" },
+                { "title": "Corporate" },
+                { "title": "Technology" },
+                { "title": "Hopeful" },
+                { "title": "Creative" }
+            ]
+        },
+        {
+            "title": "Cinemativ Orchestral",
+            "cls": "btn-info",
+            "buttons": [
+                { "title": "Epic/Cinematic" },
+                { "title": "Movie Themes" },
+                { "title": "Hybrid" },
+                { "title": "Beatiful Cinematic" },
+                { "title": "Magical" },
+                { "title": "Playful/Whimsycal" },
+                { "title": "Heroic/Triumpant" },
+                { "title": "Danger/Tension" },
+                { "title": "Trailer Music" },
+                { "title": "Inspiring Cinematic" }, 
+                { "title": "Cinematic Rock" },
+                { "title": "Thoutful Mood" }
+            ]
+        }
+    ]
+}
