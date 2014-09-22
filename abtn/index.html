@@ -19,17 +19,23 @@
 
 <!--<input id="btn-category-add" type="button" value="+">-->
 
-<div id="work-area" >
+    <div id="work-area" style="float:left">
 
-</div>
+    </div>
 
-<hr style="margin-top:50px" />
+<div id="button-form" style="float:left; margin-left:40px">
+    <input type="color" list="colors" />
+    <datalist id="colors"></datalist>
+    </div>
+    
+<p class="clearfix"></p>
+<hr style="margin-top:50px;clear:both"  />
 
-<input type="color" list="colors" />
-    <datalist id="colors">
 
-      </datalist>
 
+    <p id="create-buttons-status">_</p>
+    <a class="btn btn-primary" id="btn-create-buttons"> create buttons </a>
+    <a class="btn btn-primary" href="/buttons.zip"> download as zip archive</a>
         <script src="jquery.min.js"></script>
         <script src="store.js"></script>
         <script src="main.js"></script>

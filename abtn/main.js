@@ -101,10 +101,18 @@ Main.prototype.render = function () {
 }
 
 Main.prototype.takeShots = function () {
+    var $status = $("#create-buttons-status");
+    $status.text('start ...');
     this.categories.forEach(function (cat) {
+        
+        var competed = 0;
+
         cat.buttons.forEach(function (b) {
             var p = b.getShotParams();
-            $.ajax('shot.png', { data: p });
+            $.ajax('shot.png', { data: p }).then(function () {
+                competed++;
+                $status.text( competed + ' / ' + cat.buttons.length )
+            });
         })
     });
 }
@@ -117,6 +125,10 @@ function init() {
     store.load().then(function () {
         main.render();
         //  if (window.callPhantom) window.callPhantom('takeShot');
+    })
+
+    $('#btn-create-buttons').click(function () {
+        main.takeShots();
     })
 
     console.log('init')

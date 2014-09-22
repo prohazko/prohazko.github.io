@@ -1,4 +1,5 @@
 var http = require("http"),
+    async = require("async"),
     url = require("url"),
     concat = require("path").join,
     fs = require("fs")
@@ -7,18 +8,39 @@ var http = require("http"),
 var addr = 'http://' + (process.env.LOCALHOST || 'localhost' )+ ':' + port + '/';
 var appdir = require("path").dirname(require.main.filename);
 
-function sendFile(name, resp) {
-    fs.readFile(concat(appdir, name), "binary", function (err, file) {
-        if (err) {
-            resp.writeHead(500, { "Content-Type": "text/plain" });
-            resp.end('error');
-            return;
-        }
+function sendError(resp) {
+    resp.writeHead(500, { "Content-Type": "text/plain" });
+    resp.end('error');
+}
 
-        resp.writeHead(200);
-        resp.write(file);
-        resp.end();
+function sendFile(name, resp) {
+    fs.createReadStream(concat(appdir, name)).pipe(resp);
+}
+
+function sendButtonsZip(req, resp) {
+    var packer = require('zip-stream');
+    var archive = new packer(); // OR new packer(options)
+
+    archive.on('error', function(err) {
+        sendError(resp);
     });
+
+
+    archive.pipe(resp);
+
+    var buttonsDir = concat(appdir, 'buttons');
+    fs.readdir(buttonsDir, function (err, dir) {
+        async.mapSeries(dir, function (pic, cb) {
+            var file = fs.createReadStream( concat(buttonsDir, pic) ); 
+            archive.entry(file, { name: pic }, cb);
+        }, function (err, paths) {
+            if (err) {
+                console.log(err)
+            }
+            archive.finish();
+        })
+    })
+
 }
 
 function hasExtension(path, ext) {
@@ -37,7 +59,7 @@ function makeShot(req, resp) {
     var options = { siteType: 'url', renderDelay: 50, shotOffset : offset, shotSize:size };
 
     webshot(addr, options, function (err, renderStream) {
-        var file = fs.createWriteStream(concat(appdir ,'buttons/',  name+'.png'), { encoding: 'binary' });
+        var file = fs.createWriteStream(concat(appdir, 'buttons/',  name+'.png'), { encoding: 'binary' });
         console.log(err);
         renderStream.pipe(resp);
         renderStream.pipe(file);
@@ -58,6 +80,9 @@ http.createServer(function (req, resp) {
 
     if (path == '/shot.png')
         return makeShot(req, resp);
+
+    if (path == '/buttons.zip')
+        return sendButtonsZip(req, resp);
 
     resp.writeHead(404, { "Content-Type": "text/plain" });
     resp.end('not found');
