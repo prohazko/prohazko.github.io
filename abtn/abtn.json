@@ -19,13 +19,13 @@
                 { "title": "Chill out", "color": "#27ae60"  },
                 { "title": "Tech" , "color": "#2980b9" },
                 
-                { "title": "Sports", "color": "#ff8800"  },
-                { "title": "Action", "color": "#e67e22"  },
-                { "title": "Logo", "color": "#e74c3c"  },
+                { "title": "Sports", "color": "#f39c12"  },
+                { "title": "Action", "color": "#ff8800"  },
+                { "title": "Logo", "color": "#e67e22"  },
 
-                { "title": "Folk/acoustic", "color": "#f39c12"  },
-                { "title": "Modern classic", "color": "#d35400"  },
-                { "title": "Trailer", "color": "#c0392b"  }
+                { "title": "Folk/acoustic", "color": "#d35400"  },
+                { "title": "Modern classic", "color": "#c0392b"  },
+                { "title": "Trailer", "color": "#e74c3c"  }
 
 
 
