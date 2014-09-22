@@ -61,4 +61,5 @@ node_modules/*
 abtn/node_modules/*/node-modules/
 abtn/node_modules/*/node-modules/ 
 abtn/node_modules/*
+abtn/buttons/*.png
 

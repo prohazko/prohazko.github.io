@@ -4,6 +4,7 @@ var http = require("http"),
     fs = require("fs")
     port = process.env.PORT || 5000;
 
+var addr = 'http://' + (process.env.LOCALHOST || 'localhost' )+ ':' + port + '/';
 var appdir = require("path").dirname(require.main.filename);
 
 function sendFile(name, resp) {
@@ -35,7 +36,7 @@ function makeShot(req, resp) {
     var size = { width: +query.width, height: +query.height };
     var options = { siteType: 'url', renderDelay: 50, shotOffset : offset, shotSize:size };
 
-    webshot('http://' + process.env.LOCALHOST + ':' + port + '/', options, function (err, renderStream) {
+    webshot(addr, options, function (err, renderStream) {
         var file = fs.createWriteStream(concat(appdir ,'buttons/',  name+'.png'), { encoding: 'binary' });
         console.log(err);
         renderStream.pipe(resp);
