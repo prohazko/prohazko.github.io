@@ -2,17 +2,14 @@
   "name": "abtn",
   "version": "0.0.0",
   "description": "",
-  
-  "main": "abtn/app.js",
+  "main": "app.js",
   "scripts": {
-    "start": "node abtn/app.js"
+    "start": "node app.js"
   },
   "dependencies": {
-    "webshot": "~0.15.3"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/prohazko/prohazko.github.io"
+    "webshot": "~0.15.3",
+    "zip-stream": "~0.4.1",
+    "async": "~0.9.0"
   },
   "devDependencies": {},
   "author": "",
