@@ -2,7 +2,7 @@ var http = require("http"),
     url = require("url"),
     concat = require("path").join,
     fs = require("fs")
-    port = process.argv[2] || 3000;
+    port = process.env.PORT || 5000;
 
 var appdir = require("path").dirname(require.main.filename);
 
@@ -35,7 +35,7 @@ function makeShot(req, resp) {
     var size = { width: +query.width, height: +query.height };
     var options = { siteType: 'url', renderDelay: 50, shotOffset : offset, shotSize:size };
 
-    webshot('http://localhost:3000/', options, function (err, renderStream) {
+    webshot('http://localhost:'+ port +'/', options, function (err, renderStream) {
         var file = fs.createWriteStream(concat(appdir ,'buttons/',  name+'.png'), { encoding: 'binary' });
         console.log(err);
         renderStream.pipe(resp);
