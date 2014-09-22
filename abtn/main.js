@@ -1,6 +1,7 @@
 var initial = {
     columns: 3,
-    width  : 120
+    width: 130,
+    margin: 5
 }
 
 function Button(category, title) {
@@ -12,6 +13,7 @@ function Button(category, title) {
 Button.prototype.render = function () {
     var width = this.category.root.width;
     var cls = this.category.cls;
+    console.log(width)
     this.$btn = $('<input>').attr('type', 'button')
         .addClass('btn ' + cls)
         .width(width)
@@ -19,11 +21,26 @@ Button.prototype.render = function () {
     if (this.color != null) {
         this.$btn.css('background-color', this.color)
         this.$btn.css('border-color', this.color)
-    } 
+        $("#colors").append( $("<option>").val(this.color) )
+    }
 
     this.category.$buttons.append(this.$btn)
+    this.$btn.width(width)
 };
 
+Button.prototype.getName = function () {
+    return this.title.replace(/[^a-zA-Z0-9-_]/g, '_').toLowerCase();
+}
+
+Button.prototype.getShotParams = function () {
+    return {
+        left: this.$btn.offset().left - initial.margin,
+        top: this.$btn.offset().top - initial.margin,
+        width: this.$btn.outerWidth() + initial.margin * 2,
+        height: this.$btn.outerHeight() + initial.margin * 2,
+        name: this.getName()
+    };
+}
 
 function Category(root, title) {
     this.root = root;
@@ -34,15 +51,13 @@ function Category(root, title) {
 Category.prototype.render = function () {
     this.$header = $('<h1>').text(this.title)
     this.$btnAdd = $('<input>').attr('type', 'button').css('font-size', 'medium').val('+');
-    var width = this.root.width * this.root.columns + this.root.width * 1.5
+    var width = (this.root.width + 20) * this.root.columns + 5 * 6 + 20;
     this.$buttons = $('<div>').width(width)
 
-    this.$btnAdd.click(function () {
-        this.addButton();
-    }.bind(this));
-    this.root.$work.append(this.$header);
+
+    //   this.root.$work.append(this.$header);
     this.root.$work.append(this.$buttons);
- //   this.$header.append(this.$btnAdd);
+    //   this.$header.append(this.$btnAdd);
 
     this.buttons.forEach(function (btn) {
         btn.render();
@@ -63,12 +78,10 @@ function Main($view) {
     this.$view = $view;
     this.$work = $view.find('#work-area')
     this.categories = []
-    this.columns = initial.columns;   
-    this.width   = initial.width;
+    this.columns = initial.columns;
+    this.width = initial.width;
 
-    $('#btn-category-add').click(function () {
-        this.addCategory();
-    }.bind(this))
+
 }
 
 Main.prototype.addCategory = function (name) {
@@ -87,21 +100,32 @@ Main.prototype.render = function () {
     }, this)
 }
 
-function init() {
+Main.prototype.takeShots = function () {
+    this.categories.forEach(function (cat) {
+        cat.buttons.forEach(function (b) {
+            var p = b.getShotParams();
+            $.ajax('shot.png', { data: p });
+        })
+    });
+}
 
-    var main  = new Main($(document));
+function init() {
+    var main = new Main($(document));
+
     var store = new ButtonStore(main);
 
     store.load().then(function () {
         main.render();
+        //  if (window.callPhantom) window.callPhantom('takeShot');
     })
 
     console.log('init')
+
+    //   $('body').css('background-color', 'red');
 
     window['main'] = main;
 }
 
 
-
+//init();
 $(init);
-

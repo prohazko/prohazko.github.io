@@ -1,11 +1,16 @@
 {
     "columns": 3,
-    "width": 100,
+    "width": 110,
     "categories": [
         {
             "title": "Quick Search",
             "cls": "btn-default",
             "buttons": [
+                                
+                { "title": "Christmas" , "color": "#9b59b6" },
+                { "title": "50% sale", "color": "#8e44ad"  },
+                { "title": "Sound effects", "color": "#9933cc"  },
+
                 { "title": "Fashion Show", "color": "#1abc9c" },
                 { "title": "Hip-Hop" , "color": "#2ecc71" },
                 { "title": "Breakbeat" , "color": "#3498db" },
@@ -20,12 +25,9 @@
 
                 { "title": "Folk/acoustic", "color": "#f39c12"  },
                 { "title": "Modern classic", "color": "#d35400"  },
-                { "title": "Trailer", "color": "#c0392b"  },
+                { "title": "Trailer", "color": "#c0392b"  }
 
-                
-                { "title": "Christmas" , "color": "#9b59b6" },
-                { "title": "50% sale", "color": "#8e44ad"  },
-                { "title": "Sound effects", "color": "#9933cc"  }
+
 
             ]
         }

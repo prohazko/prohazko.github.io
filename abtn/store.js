@@ -17,7 +17,8 @@ function ButtonStore(root) {
 }
 
 ButtonStore.prototype.load = function () {
-    return $.getJSON('abtn.json').then(this.onload.bind(this));
+    var self = this;
+    return $.getJSON('abtn.json').then(function (cfg) { self.onload(cfg) });
 }
 
 ButtonStore.prototype.onload = function (stored) {
