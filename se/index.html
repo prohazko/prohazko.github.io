@@ -12,6 +12,18 @@
             margin: 5px;
             padding: 1px 7px;
         }
+        
+
+        .noselect {
+          -webkit-user-select: none;  /* Chrome all / Safari all */
+          -moz-user-select: none;     /* Firefox all */
+          -ms-user-select: none;      /* IE 10+ */
+
+          /* No support for these yet, use at own risk */
+          -o-user-select: none;
+          user-select: none;  
+          cursor:default;  
+        }
     </style>
     
     <script src="./../assets/js/jquery.min.js"></script>
@@ -22,7 +34,7 @@
         musico.init();
     </script>
 </head>
-<body>
+<body class="noselect">
 
 
 
@@ -38,7 +50,7 @@
             <div class="col-lg-12">
 
                 <h1 class="text-muted"> ♫ {{albumList.title}} ♪ </h1>
-                
+
                 <input type="button" class="btn btn-primary pull-right" value="✗ clear all"
                        ng-if="albumList.albums.length > 0"
                        ng-click="albumList.deleteAll()"
