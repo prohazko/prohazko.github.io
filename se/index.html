@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>se lab: music store</title>
+    <link rel="stylesheet" href="./../assets/css/bootstrap_flatly.min.css" type="text/css" />
+    <style type="text/css">
+        .btn-tool {
+            font-size: xx-large;
+            line-height: 1em;
+            margin: 5px;
+            padding: 1px 7px;
+        }
+    </style>
+    
+    <script src="./../assets/js/jquery.min.js"></script>
+    <script src="./../assets/js/angular.min.js"></script>
+
+    <script src="./../assets/js/se.musicStore.js"></script>
+    <script type="text/javascript">
+        musico.init();
+    </script>
+</head>
+<body>
+
+
+
+    <div class="container" ng-app="musico">
+
+        <div class="row" ng-controller="AlbumListCtrl as albumList">
+
+            <ul id="album-menu" class="dropdown-menu" role="menu">
+                <li><a tabindex="-1" href="#" ng-click="albumList.editActive()">Edit</a></li>
+                <li><a tabindex="-1" href="#" ng-click="albumList.deleteActive()">Delete</a></li>
+            </ul>
+
+            <div class="col-lg-12">
+
+                <h1 class="text-muted"> ♫ {{albumList.title}} ♪ </h1>
+                
+                <input type="button" class="btn btn-primary pull-right" value="✗ clear all"
+                       ng-if="albumList.albums.length > 0"
+                       ng-click="albumList.deleteAll()"
+                       ng-right-click="albumList.reset()" />
+                <input type="button" class="btn btn-info btn-tool" value="+" ng-click="albumList.addAlbum()" />
+
+                <table class="table table-bordered table-hover table-condensed">
+                    <thead>
+                        <tr>
+                            <th style="width:45%">Artist</th>
+                            <th style="width:45%">Album</th>
+                            <th style="width:10%">Year</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="album in albumList.albums"
+                            ng-class="{'info': albumList.active == album}"
+                            ng-click="albumList.active = album"
+                            ng-right-click="albumList.showMenu($event, album)">
+                            <td ng-if="album != albumList.editing">{{album.artist}}</td>
+                            <td ng-if="album != albumList.editing">{{album.title}}</td>
+                            <td ng-if="album != albumList.editing">{{album.year}}</td>
+
+                            <td ng-if="album == albumList.editing">
+                                <input ng-model="albumList.editing.artist" class="form-control input-sm" type="text" />
+                            </td>
+                            <td ng-if="album == albumList.editing">
+                                <input ng-model="albumList.editing.title" class="form-control input-sm" type="text" />
+                            </td>
+                            <td ng-if="album == albumList.editing">
+                                <input ng-model="albumList.editing.year" class="form-control input-sm" type="text" />
+                            </td>
+                        </tr>
+                        <tr ng-if="albumList.albums.length == 0" class="active" style="text-align:center">
+                            <td colspan="3"> no items </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <form ng-if="albumList.editing != null">
+                    <input type="button" class="btn btn-success btn-tool" value="✓" ng-click="albumList.commit()" />
+                    <input type="button" class="btn btn-danger  btn-tool" value="✗" ng-click="albumList.cancel()" />
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+</body>
+</html>
