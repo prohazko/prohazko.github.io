@@ -16,7 +16,7 @@
         constructor() {
             var stored = localStorage.getItem('musico-albums')
             if (stored && (stored = JSON.parse(stored))) {
-                this.all = stored.map(x=> new Album(x.artist, x.title, x.year));
+                this.all = stored.map(dto=> new Album().from(dto));
             }
 
             $(window).unload(this.unloadToken)

@@ -24,6 +24,14 @@
           user-select: none;  
           cursor:default;  
         }
+
+                
+       #album-commit-btns .btn-tool{
+                font-size:large;
+                margin:3px;
+        }
+
+
     </style>
     
     <script src="./../assets/js/jquery.min.js"></script>
@@ -47,57 +55,61 @@
                 <li><a tabindex="-1" href="#" ng-click="albumList.deleteActive()">Delete</a></li>
             </ul>
 
-            <div class="col-lg-12">
+            <div class="col-xs-10 col-md-10  col-sm-10">
 
                 <h1 class="text-muted"> ♫ {{albumList.title}} ♪ </h1>
 
-                <input type="button" class="btn btn-primary pull-right" value="✗ clear all"
+                <input type="button" class="btn btn-primary pull-right" value="✗ clear all" style="padding:7px"
                        ng-if="albumList.albums.length > 0"
                        ng-click="albumList.deleteAll()"
                        ng-right-click="albumList.reset()" />
+
                 <input type="button" class="btn btn-info btn-tool" value="+" ng-click="albumList.addAlbum()" />
 
                 <table class="table table-bordered table-hover table-condensed">
                     <thead>
                         <tr>
-                            <th style="width:45%">Artist</th>
-                            <th style="width:45%">Album</th>
-                            <th style="width:10%">Year</th>
+                            <th style="width:43%">Artist</th>
+                            <th style="width:43%">Album</th>
+                            <th style="width:14%">Year</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody fix-buttons="albumList.editing" fix-buttons-el="#album-commit-btns">
+
                         <tr ng-repeat="album in albumList.albums"
                             ng-class="{'info': albumList.active == album}"
                             ng-click="albumList.active = album"
-                            ng-right-click="albumList.showMenu($event, album)">
+                            ng-right-click="albumList.active = album" ng-right-click-menu="#album-menu">
                             <td ng-if="album != albumList.editing">{{album.artist}}</td>
                             <td ng-if="album != albumList.editing">{{album.title}}</td>
                             <td ng-if="album != albumList.editing">{{album.year}}</td>
 
-                            <td ng-if="album == albumList.editing">
+                            <td ng-if="album == albumList.editing" style="padding:0">
                                 <input ng-model="albumList.editing.artist" class="form-control input-sm" type="text" />
                             </td>
-                            <td ng-if="album == albumList.editing">
+                            <td ng-if="album == albumList.editing" style="padding:0">
                                 <input ng-model="albumList.editing.title" class="form-control input-sm" type="text" />
                             </td>
-                            <td ng-if="album == albumList.editing">
+                            <td ng-if="album == albumList.editing" style="padding:0">
                                 <input ng-model="albumList.editing.year" class="form-control input-sm" type="text" />
                             </td>
+
                         </tr>
                         <tr ng-if="albumList.albums.length == 0" class="active" style="text-align:center">
                             <td colspan="3"> no items </td>
                         </tr>
                     </tbody>
                 </table>
+            </div>
 
-                <form ng-if="albumList.editing != null">
-                    <input type="button" class="btn btn-success btn-tool" value="✓" ng-click="albumList.commit()" />
-                    <input type="button" class="btn btn-danger  btn-tool" value="✗" ng-click="albumList.cancel()" />
+            <div class="col-xs-2 col-md-2 col-sm-2" style="padding:2px">
+                <form id="album-commit-btns" ng-if="albumList.editing != null" style="position:absolute">
+                    <input type="button" class="btn btn-success btn-tool" value="✓" ng-click="albumList.commit()"  />
+                    <input type="button" class="btn btn-danger  btn-tool" value="✗" ng-click="albumList.cancel()"  />
                 </form>
-
+            </div>
 
             </div>
-        </div>
     </div>
 
 

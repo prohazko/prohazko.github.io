@@ -42,6 +42,7 @@ var musico;
         app.value(musico.di.AlbumStore, new musico.AlbumStore());
 
         app.directive('ngRightClick', musico.directives.ngRightClick);
+        app.directive('fixButtons', musico.directives.fixButtons);
 
         app.run(function () {
             return console.log('wow');
@@ -52,15 +53,14 @@ var musico;
 var musico;
 (function (musico) {
     var AlbumListCtrl = (function () {
-        function AlbumListCtrl(albumStore) {
-            this.albumStore = albumStore;
+        function AlbumListCtrl(AlbumStore) {
+            this.AlbumStore = AlbumStore;
             this.title = 'Music Store';
             this.albums = [];
             this.editing = null;
             this.active = null;
             this.backup = new musico.Album();
-            this.$contextMenu = $("#album-menu");
-            this.albums = albumStore.all;
+            this.albums = AlbumStore.all;
         }
         AlbumListCtrl.prototype.addAlbum = function () {
             if (this.editing)
@@ -70,7 +70,6 @@ var musico;
             empty.commited = false;
             this.editing = empty;
             this.albums.push(empty);
-            this.selectFirstField();
         };
 
         AlbumListCtrl.prototype.commit = function () {
@@ -85,30 +84,13 @@ var musico;
             if (this.editing.commited) {
                 this.albums[idx] = new musico.Album().from(this.backup);
             }
-
             this.editing = null;
-        };
-
-        AlbumListCtrl.prototype.showMenu = function ($e, album) {
-            var _this = this;
-            this.active = album;
-
-            this.$contextMenu.css({
-                display: "block",
-                left: $e.pageX,
-                top: $e.pageY
-            });
-
-            $(document.body).one('click', function () {
-                return _this.$contextMenu.hide();
-            });
         };
 
         AlbumListCtrl.prototype.editActive = function () {
             this.backup = new musico.Album().from(this.active);
             this.editing = this.active;
             this.active = null;
-            this.selectFirstField();
         };
 
         AlbumListCtrl.prototype.deleteActive = function () {
@@ -120,23 +102,16 @@ var musico;
         };
 
         AlbumListCtrl.prototype.deleteAll = function () {
-            this.albumStore.all = [];
+            this.AlbumStore.all = [];
             this.albums = [];
             this.active = null;
             this.editing = null;
         };
 
         AlbumListCtrl.prototype.reset = function () {
-            this.albumStore.all = null;
+            this.AlbumStore.all = null;
             location.reload();
         };
-
-        AlbumListCtrl.prototype.selectFirstField = function () {
-            setTimeout(function () {
-                return $('input[type="text"]').eq(0).focus().select();
-            }, 50);
-        };
-        AlbumListCtrl.$inject = [musico.di.AlbumStore];
         return AlbumListCtrl;
     })();
     musico.AlbumListCtrl = AlbumListCtrl;
@@ -147,15 +122,44 @@ var musico;
         function ngRightClick($parse) {
             return function (scope, element, attrs) {
                 var fn = $parse(attrs.ngRightClick);
+                var menu = attrs.ngRightClickMenu;
                 element.bind('contextmenu', function (event) {
                     scope.$apply(function () {
                         event.preventDefault();
                         fn(scope, { $event: event });
+
+                        $(menu).css({
+                            display: "block",
+                            left: event.pageX,
+                            top: event.pageY
+                        });
+
+                        $(document.body).one('click', function () {
+                            return $(menu).hide();
+                        });
                     });
                 });
             };
         }
         directives.ngRightClick = ngRightClick;
+
+        function fixButtons($parse) {
+            return function (scope, element, attrs) {
+                var ev = $parse(attrs.fixButtons);
+                var el = attrs.fixButtonsEl;
+
+                scope.$watch(attrs.fixButtons, function (val, prev) {
+                    if (!val)
+                        return;
+                    setTimeout(function () {
+                        var $inp = $('input[type="text"]').eq(0);
+                        $inp.focus().select();
+                        $(el).css({ top: $inp.position().top });
+                    }, 10);
+                });
+            };
+        }
+        directives.fixButtons = fixButtons;
     })(musico.directives || (musico.directives = {}));
     var directives = musico.directives;
 })(musico || (musico = {}));
@@ -199,8 +203,8 @@ var musico;
             };
             var stored = localStorage.getItem('musico-albums');
             if (stored && (stored = JSON.parse(stored))) {
-                this.all = stored.map(function (x) {
-                    return new musico.Album(x.artist, x.title, x.year);
+                this.all = stored.map(function (dto) {
+                    return new musico.Album().from(dto);
                 });
             }
 

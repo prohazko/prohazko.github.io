@@ -10,6 +10,7 @@ module musico {
 
 
         app.directive('ngRightClick', directives.ngRightClick);
+        app.directive('fixButtons', directives.fixButtons);
 
         app.run(()=>console.log('wow'));
     }

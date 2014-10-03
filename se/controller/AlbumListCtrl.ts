@@ -3,18 +3,16 @@
     export class AlbumListCtrl {
 
         title = 'Music Store';
+
         albums: Album[] = [];
         editing: Album = null;
         active: Album = null;
 
         backup = new Album();
 
-        $contextMenu = $("#album-menu");
 
-        static $inject = [di.AlbumStore]
-
-        constructor(private albumStore: AlbumStore) {
-            this.albums = albumStore.all;
+        constructor(private AlbumStore: AlbumStore) {
+            this.albums = AlbumStore.all;
         }
 
         addAlbum() {
@@ -24,7 +22,6 @@
             empty.commited = false;
             this.editing = empty;
             this.albums.push(empty);
-            this.selectFirstField();
         }
 
         commit() {
@@ -39,27 +36,14 @@
             if (this.editing.commited) {
                 this.albums[idx] = new Album().from(this.backup);
             }
-
-            this.editing = null; 
+            this.editing = null;
         }
 
-        showMenu($e:JQueryMouseEventObject, album) {
-            this.active = album;
-
-            this.$contextMenu.css({
-                display: "block",
-                left: $e.pageX,
-                top: $e.pageY
-            });
-
-            $(document.body).one('click', () => this.$contextMenu.hide())
-        }
 
         editActive() {
-            this.backup =  new Album().from(this.active);
+            this.backup = new Album().from(this.active);
             this.editing = this.active;
             this.active = null;
-            this.selectFirstField();
         }
 
         deleteActive() {
@@ -70,19 +54,16 @@
         }
 
         deleteAll() {
-            this.albumStore.all = [];
+            this.AlbumStore.all = [];
             this.albums = [];
             this.active = null;
             this.editing = null;
         }
 
         reset() {
-            this.albumStore.all = null;
+            this.AlbumStore.all = null;
             location.reload();
         }
 
-        selectFirstField() {
-            setTimeout(() => $('input[type="text"]').eq(0).focus().select(), 50)
-        }
     }
 }
