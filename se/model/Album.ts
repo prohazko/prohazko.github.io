@@ -10,9 +10,14 @@
 
         }
 
-       // with(other: Album): Album;
+        // with(other: Album): Album;
         with(other: any): Album {
-            $.extend(this, other);
+            for (var key in other) {
+                if (!other.hasOwnProperty(key) || key[0] == '$')
+                    continue;
+
+                this[key] = other[key];
+            }
             return this;
         }
     }

@@ -11,7 +11,7 @@
 
         all = initial.slice(0)
 
-        unloadToken = () => this.beforeUnload();
+        private unloadToken = () => this.beforeUnload();
 
         constructor() {
             var stored = localStorage.getItem('musico-albums')
@@ -19,7 +19,7 @@
                 this.all = stored.map(dto=> new Album().with(dto));
             }
 
-            $(window).unload(this.unloadToken)       
+            $(window).on('beforeunload', this.unloadToken)       
         }
 
         beforeUnload() {

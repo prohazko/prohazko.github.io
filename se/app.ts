@@ -6,7 +6,7 @@ module musico {
 
         app.controller(nameof(AlbumListCtrl), AlbumListCtrl);
 
-        app.value(di.AlbumStore, new AlbumStore());
+        app.value(di.albumStore, new AlbumStore());
 
 
         app.directive('ngRightClick', directives.ngRightClick);

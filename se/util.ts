@@ -1,7 +1,7 @@
 ﻿module musico {
 
     export var di = {
-        AlbumStore: 'AlbumStore'
+        albumStore: 'albumStore'
     };
 
 

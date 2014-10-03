@@ -1,7 +1,7 @@
 ﻿var musico;
 (function (musico) {
     musico.di = {
-        AlbumStore: 'AlbumStore'
+        albumStore: 'albumStore'
     };
 
     function extractNameFromSource(def) {
@@ -39,7 +39,7 @@ var musico;
 
         app.controller(musico.nameof(musico.AlbumListCtrl), musico.AlbumListCtrl);
 
-        app.value(musico.di.AlbumStore, new musico.AlbumStore());
+        app.value(musico.di.albumStore, new musico.AlbumStore());
 
         app.directive('ngRightClick', musico.directives.ngRightClick);
         app.directive('fixButtons', musico.directives.fixButtons);
@@ -53,14 +53,13 @@ var musico;
 var musico;
 (function (musico) {
     var AlbumListCtrl = (function () {
-        function AlbumListCtrl(AlbumStore) {
-            this.AlbumStore = AlbumStore;
-            this.title = 'Music Store';
+        function AlbumListCtrl(albumStore) {
+            this.albumStore = albumStore;
             this.albums = [];
             this.editing = null;
             this.active = null;
             this.backup = new musico.Album();
-            this.albums = AlbumStore.all;
+            this.albums = albumStore.all;
         }
         AlbumListCtrl.prototype.addAlbum = function () {
             if (this.editing)
@@ -87,7 +86,7 @@ var musico;
         };
 
         AlbumListCtrl.prototype.editActive = function () {
-            if (this.editing && !this.editing.commited)
+            if (this.editing)
                 this.cancel();
 
             this.backup = new musico.Album().with(this.active);
@@ -104,14 +103,13 @@ var musico;
         };
 
         AlbumListCtrl.prototype.deleteAll = function () {
-            this.AlbumStore.all = [];
+            this.albumStore.all = [];
             this.albums = [];
-            this.active = null;
-            this.editing = null;
+            this.active = this.editing = null;
         };
 
         AlbumListCtrl.prototype.reset = function () {
-            this.AlbumStore.all = null;
+            this.albumStore.forget();
             location.reload();
         };
         return AlbumListCtrl;
@@ -154,7 +152,7 @@ var musico;
                     if (!val)
                         return;
                     setTimeout(function () {
-                        var $inp = $('input[type="text"]').eq(0);
+                        var $inp = $('.form-control').eq(0);
                         $inp.focus().select();
                         $(el).css({ top: $inp.position().top });
                     }, 10);
@@ -179,7 +177,12 @@ var musico;
         }
         // with(other: Album): Album;
         Album.prototype.with = function (other) {
-            $.extend(this, other);
+            for (var key in other) {
+                if (!other.hasOwnProperty(key) || key[0] == '$')
+                    continue;
+
+                this[key] = other[key];
+            }
             return this;
         };
         return Album;
@@ -209,7 +212,7 @@ var musico;
                 });
             }
 
-            $(window).unload(this.unloadToken);
+            $(window).on('beforeunload', this.unloadToken);
         }
         AlbumStore.prototype.beforeUnload = function () {
             localStorage.setItem('musico-albums', JSON.stringify(this.all));

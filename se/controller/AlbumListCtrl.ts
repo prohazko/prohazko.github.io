@@ -2,8 +2,6 @@
 
     export class AlbumListCtrl {
 
-        title = 'Music Store';
-
         albums: Album[] = [];
         editing: Album = null;
         active: Album = null;
@@ -11,8 +9,8 @@
         backup = new Album();
 
 
-        constructor(private AlbumStore: AlbumStore) {
-            this.albums = AlbumStore.all;
+        constructor(private albumStore: AlbumStore) {
+            this.albums = albumStore.all;
         }
 
         addAlbum() {
@@ -40,8 +38,7 @@
 
 
         editActive() {
-            if (this.editing && !this.editing.commited)
-                this.cancel();
+            if (this.editing)  this.cancel();
 
             this.backup = new Album().with(this.active);
             this.editing = this.active;
@@ -56,16 +53,14 @@
         }
 
         deleteAll() {
-            this.AlbumStore.all = [];
+            this.albumStore.all = [];
             this.albums = [];
-            this.active = null;
-            this.editing = null;
+            this.active = this.editing = null;
         }
 
         reset() {
-            this.AlbumStore.all = null;
+            this.albumStore.forget();
             location.reload();
         }
-
     }
 }
