@@ -10,10 +10,9 @@
 
         }
 
-        from(other:Album) {
-            this.artist = other.artist;
-            this.title = other.title;
-            this.year = other.year;
+       // with(other: Album): Album;
+        with(other: any): Album {
+            $.extend(this, other);
             return this;
         }
     }

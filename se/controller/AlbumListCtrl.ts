@@ -18,8 +18,7 @@
         addAlbum() {
             if (this.editing) return;
 
-            var empty = new Album();
-            empty.commited = false;
+            var empty = new Album().with({ commited: false });
             this.editing = empty;
             this.albums.push(empty);
         }
@@ -34,14 +33,17 @@
                 this.albums.splice(idx, 1);
             }
             if (this.editing.commited) {
-                this.albums[idx] = new Album().from(this.backup);
+                this.albums[idx] = new Album().with(this.backup);
             }
             this.editing = null;
         }
 
 
         editActive() {
-            this.backup = new Album().from(this.active);
+            if (this.editing && !this.editing.commited)
+                this.cancel();
+
+            this.backup = new Album().with(this.active);
             this.editing = this.active;
             this.active = null;
         }

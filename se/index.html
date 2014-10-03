@@ -64,7 +64,7 @@
                        ng-click="albumList.deleteAll()"
                        ng-right-click="albumList.reset()" />
 
-                <input type="button" class="btn btn-info btn-tool" value="+" ng-click="albumList.addAlbum()" />
+                <input type="button" class="btn btn-info btn-tool" value="+" ng-click="albumList.addAlbum()" ng-disabled="!!albumList.editing" />
 
                 <table class="table table-bordered table-hover table-condensed">
                     <thead>

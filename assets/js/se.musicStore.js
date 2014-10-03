@@ -66,8 +66,7 @@ var musico;
             if (this.editing)
                 return;
 
-            var empty = new musico.Album();
-            empty.commited = false;
+            var empty = new musico.Album().with({ commited: false });
             this.editing = empty;
             this.albums.push(empty);
         };
@@ -82,13 +81,16 @@ var musico;
                 this.albums.splice(idx, 1);
             }
             if (this.editing.commited) {
-                this.albums[idx] = new musico.Album().from(this.backup);
+                this.albums[idx] = new musico.Album().with(this.backup);
             }
             this.editing = null;
         };
 
         AlbumListCtrl.prototype.editActive = function () {
-            this.backup = new musico.Album().from(this.active);
+            if (this.editing && !this.editing.commited)
+                this.cancel();
+
+            this.backup = new musico.Album().with(this.active);
             this.editing = this.active;
             this.active = null;
         };
@@ -175,10 +177,9 @@ var musico;
             this.year = year;
             this.commited = true;
         }
-        Album.prototype.from = function (other) {
-            this.artist = other.artist;
-            this.title = other.title;
-            this.year = other.year;
+        // with(other: Album): Album;
+        Album.prototype.with = function (other) {
+            $.extend(this, other);
             return this;
         };
         return Album;
@@ -204,12 +205,11 @@ var musico;
             var stored = localStorage.getItem('musico-albums');
             if (stored && (stored = JSON.parse(stored))) {
                 this.all = stored.map(function (dto) {
-                    return new musico.Album().from(dto);
+                    return new musico.Album().with(dto);
                 });
             }
 
             $(window).unload(this.unloadToken);
-            window['albumStore'] = this;
         }
         AlbumStore.prototype.beforeUnload = function () {
             localStorage.setItem('musico-albums', JSON.stringify(this.all));
