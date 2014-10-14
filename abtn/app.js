@@ -58,7 +58,7 @@ function makeShot(req, resp) {
     var size = { width: +query.width, height: +query.height };
     var options = { siteType: 'url', renderDelay: 50, shotOffset : offset, shotSize:size };
 
-    webshot(addr, options, function (err, renderStream) {
+    webshot(addr + '/index_webshot.html', options, function (err, renderStream) {
         var file = fs.createWriteStream(concat(appdir, 'buttons/',  name+'.png'), { encoding: 'binary' });
         console.log(err);
         renderStream.pipe(resp);
@@ -74,7 +74,14 @@ http.createServer(function (req, resp) {
     if (path == '/' || path == '/index.html')
         return sendFile("index.html", resp);
 
+    if (path == '/' || path == '/index_webshot.html')
+        return sendFile("index_webshot.html", resp);
+
     var resource = hasExtension(path, '.js') || hasExtension(path, '.css') || hasExtension(path, '.json');
+    if(path.indexOf('assets/') >= 0){
+        file = './../' + file;
+    }
+
     if (resource && fs.existsSync(concat(appdir, file)) && path != '/app.js')
         return sendFile(file, resp);
 
@@ -91,3 +98,5 @@ http.createServer(function (req, resp) {
 }).listen(+port);
 
 console.log("start");
+console.log("this code is complete mess");
+console.log("TODO: rewrite it using express")

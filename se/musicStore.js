@@ -152,7 +152,7 @@ var musico;
                     if (!val)
                         return;
                     setTimeout(function () {
-                        var $inp = $('.form-control').eq(0);
+                        var $inp = $('input[type="text"]').eq(0);
                         $inp.focus().select();
                         $(el).css({ top: $inp.position().top });
                     }, 10);

@@ -13,3 +13,8 @@ body {
 h1 {
     color : #808080;
 }
+
+
+#button-form label{
+    display:block;
+}
