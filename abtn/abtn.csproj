@@ -18,9 +18,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="app.js" />
-    <Content Include="index.html" />
     <Content Include="mx.css" />
     <Content Include="pageshot.js" />
+    <Content Include="views\index.html" />
+    <Content Include="views\webshot.html" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="abtn.json" />
@@ -74,7 +75,7 @@
     <TypeScriptSourceMap>False</TypeScriptSourceMap>
     <TypeScriptModuleKind>none</TypeScriptModuleKind>
     <TypeScriptCompileOnSaveEnabled>False</TypeScriptCompileOnSaveEnabled>
-    <TypeScriptOutFile>abtn.js</TypeScriptOutFile>
+    <TypeScriptOutFile>assets/abtn.js</TypeScriptOutFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
