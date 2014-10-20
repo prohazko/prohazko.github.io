@@ -18,13 +18,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="app.js" />
-    <Content Include="mx.css" />
     <Content Include="pageshot.js" />
+    <Content Include="routes\index.js" />
+    <Content Include="routes\webshot.js" />
     <Content Include="views\index.html" />
     <Content Include="views\webshot.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="abtn.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="package.json" />

@@ -14,14 +14,14 @@ function filepath(req, resp, next) {
 }
 
 express()
-  .set('dir', dir)
-  .set('addr', addr)
   .use(filepath)
   .use(express.static(path.join(dir, 'assets')))
   .use(express.static(path.join(dir, './../assets')))
   .get('/', routes.index)
   .get('/shot', routes.webshot.make)
+  .post('/save', routes.webshot.save)
   .get('/webshot.html', routes.webshot.index)
+  .set('addr', addr)
   .listen(+port);
   
 console.log(addr, 'started!')

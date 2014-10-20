@@ -1,0 +1,35 @@
+{
+    "columns": 3,
+    "width": 135,
+    "categories": [
+        {
+            "title": "Quick Search",
+            "cls": "btn-default",
+            "buttons": [
+                                
+                { "title": "Christmas" , "color": "#9b59b6" },
+                { "title": "50% sale", "color": "#8e44ad"  },
+                { "title": "Sound effects", "color": "#9933cc"  },
+
+                { "title": "Fashion Show", "color": "#1abc9c" },
+                { "title": "Hip-Hop" , "color": "#2ecc71" },
+                { "title": "Breakbeat" , "color": "#3498db" },
+
+                { "title": "Dubstep" , "color": "#16a085" },
+                { "title": "Chill out", "color": "#27ae60"  },
+                { "title": "Tech" , "color": "#2980b9" },
+                
+                { "title": "Sports", "color": "#f39c12"  },
+                { "title": "Action", "color": "#ff8800"  },
+                { "title": "Logo", "color": "#e67e22"  },
+
+                { "title": "Folk/acoustic", "color": "#d35400"  },
+                { "title": "Modern classic", "color": "#c0392b"  },
+                { "title": "Trailer", "color": "#e74c3c"  }
+
+
+
+            ]
+        }
+    ]
+}

@@ -2,15 +2,9 @@
 <html lang="en">
 <head>
     <title>button test</title>
-    <link rel="stylesheet" href="./../assets/css/bootstrap.css" />
+    <link rel="stylesheet" href="css/bootstrap.css" />
     <link rel="stylesheet" href="mx.css" />
 
-    <script src="./../assets/js/jquery.min.js"></script>
-    <script src="./../assets/js/angular.min.js"></script>
-    <script src="abtn.js"></script>
-    <script>
-        abtn.init();
-    </script>
 </head>
 <body ng-app="abtn">
 
@@ -20,44 +14,16 @@
 
 
             <div class="col-lg-8">
-                <div ng-repeat="cat in btns.config.categories">
-                    <div ng-repeat="btn in cat.buttons" ng-class="{'pull-left':(($index+1) % btns.config.columns) != 0}">
-                        <input type="button" class="btn btn-primary"
-                               element-init="btn"
-                               style="width:{{btns.config.width}}px;
-                                      background-color:{{btn.getColor()}};
-                                      border-color:{{btn.getShadedColor()}}"
-                               ng-click="btns.active = btn"
-                               value="{{btn.title}}" />
-                    </div>
+                <div >
+                    {{buttons}}
                 </div>
             </div>
 
             <div class="col-lg-4">
-                <div id="button-form" ng-if="btns.active != null" style="float:left; margin-left:40px">
-
-                    <label>
-                        title :
-                        <input type="text" id="button-form-title" ng-model="btns.active.title">
-                    </label>
-
-                    <label>
-                        link :
-                        <input type="text" id="button-form-link" ng-model="btns.active.link">
-                    </label>
-                    <label>
-                        color :
-                        <input type="color" id="button-form-color" list="colors" ng-model="btns.active.color" />
-                        <datalist id="colors"></datalist>
-                    </label>
-                </div>
             </div>
         </div>
     </div>
 
 
-    <p id="create-buttons-status">_</p>
-    <a class="btn btn-primary" id="btn-create-buttons"> create buttons </a>
-    <a class="btn btn-primary" href="/buttons.zip"> download as zip archive</a>
 
 </body>
