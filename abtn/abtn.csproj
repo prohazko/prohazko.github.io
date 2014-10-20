@@ -19,6 +19,7 @@
   <ItemGroup>
     <Content Include="app.js" />
     <Content Include="pageshot.js" />
+    <Content Include="routes\abtn.js" />
     <Content Include="routes\index.js" />
     <Content Include="routes\webshot.js" />
     <Content Include="views\index.html" />
