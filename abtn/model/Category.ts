@@ -23,6 +23,10 @@
             return prev;
         }
 
+        toJSON() {
+            return { buttons: this.buttons }
+        }
+
     }
 
 }

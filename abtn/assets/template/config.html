@@ -1,0 +1,38 @@
+<div class="row-fluid" ng-controller="ButtonsCtrl as btns">
+
+
+    <div class="col-lg-8">
+        <div ng-repeat="cat in btns.config.categories">
+            <div ng-repeat="btn in cat.buttons" ng-class="{'pull-left':(($index+1) % btns.config.columns) != 0}">
+                <input type="button" class="btn btn-primary"
+                       element-init="btn"
+                       style="width:{{btns.config.width}}px;
+                                      background-color:{{btn.getColor()}};
+                                      border-color:{{btn.getShadedColor()}}"
+                       ng-click="btns.active = btn"
+                       value="{{btn.title}}" />
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4" ng-controller="FormCtrl as frm">
+        <div id="button-form" ng-if="btns.active != null" style="float:left; margin-left:40px">
+
+            <label>
+                title :
+                <input type="text" id="button-form-title" ng-model="btns.active.title">
+            </label>
+
+            <label>
+                link :
+                <input type="text" id="button-form-link" ng-model="btns.active.link">
+            </label>
+            <label>
+                color :
+                <input type="color" id="button-form-color" list="colors" ng-model="btns.active.color" />
+                <datalist id="colors"></datalist>
+            </label>
+        </div>
+        <a class="btn btn-primary" ng-click="frm.createButtons()"> create buttons </a>
+    </div>
+</div>

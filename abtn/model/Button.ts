@@ -10,36 +10,32 @@
 
         private $el = $(null);
         //private width =;
-        public $category:Category = null;
+        public $category: Category = null;
 
         constructor(
             public title = 'Untitled',
             public color = '#dedede',
             public link  = 'http://test.com/test.png'
             ) {
-
             super();
         }
 
-        getColor() { return this.color }
-        getShadedColor(shade = -17) { return shadeColor(this.color, shade); }
+        getColor() { 
+            return this.color
+        }
+        getShadedColor(shade = -17) {
+            return shadeColor(this.color, shade);
+        }
 
         init($el: JQuery) {
             this.$el = $el;
-           // this.$el.width(this.$category.$config.width);
-
-            setTimeout(() => {
-           //     this.$el.width(this.$category.$config.width);
-           //     console.log('width', this.$el.width(), this.title);
-
-            }, 150)
         }
 
-        getName () {
-            return (this.title||'').replace(/[^a-zA-Z0-9-_]/g, '_').toLowerCase();
+        getName() {
+            return (this.title || '').replace(/[^a-zA-Z0-9-_]/g, '_').toLowerCase();
         }
 
-        getShotParams () {
+        getShotParams() {
             return {
                 left: this.$el.offset().left - initial.margin,
                 top: this.$el.offset().top - initial.margin,
@@ -49,6 +45,12 @@
             };
         }
 
+        toJSON() {
+            return {
+                title: this.title,
+                color: this.color
+            };
+        }
 
     }
 

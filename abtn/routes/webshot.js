@@ -19,6 +19,10 @@ exports.save = function saveModel(req, resp) {
     var filepath = req.filepath('views/webshot.html');
     var model = req.body;
 
+    console.log(req.body);
+    resp.send({fucks:0});
+    return;
+
     abtn.saveModel(filepath, model, function (err) {
         resp.send({ ok: !!err })
     })

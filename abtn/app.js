@@ -15,11 +15,12 @@ function filepath(req, resp, next) {
 
 express()
   .use(filepath)
+  //.use(express.urlencoded())
   .use(express.static(path.join(dir, 'assets')))
   .use(express.static(path.join(dir, './../assets')))
   .get('/', routes.index)
   .get('/shot', routes.webshot.make)
-  .post('/save', routes.webshot.save)
+  .post('/abtn.json', routes.webshot.save)
   .get('/webshot.html', routes.webshot.index)
   .set('addr', addr)
   .listen(+port);

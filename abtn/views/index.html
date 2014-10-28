@@ -12,52 +12,33 @@
         abtn.init();
     </script>
 </head>
-<body ng-app="abtn">
-
-    <div class="fluid-container" ng-controller="RootCtrl as root">
-
-        <div class="row-fluid" ng-controller="ButtonsCtrl as btns">
+<body ng-app="abtn" ng-controller="RootCtrl as root">
 
 
-            <div class="col-lg-8">
-                <div ng-repeat="cat in btns.config.categories">
-                    <div ng-repeat="btn in cat.buttons" ng-class="{'pull-left':(($index+1) % btns.config.columns) != 0}">
-                        <input type="button" class="btn btn-primary"
-                               element-init="btn"
-                               style="width:{{btns.config.width}}px;
-                                      background-color:{{btn.getColor()}};
-                                      border-color:{{btn.getShadedColor()}}"
-                               ng-click="btns.active = btn"
-                               value="{{btn.title}}" />
-                    </div>
-                </div>
-            </div>
 
-            <div class="col-lg-4">
-                <div id="button-form" ng-if="btns.active != null" style="float:left; margin-left:40px">
+    <div class="fluid-container" viewport style="overflow:auto">
 
-                    <label>
-                        title :
-                        <input type="text" id="button-form-title" ng-model="btns.active.title">
-                    </label>
+        <div ng-include="'template/'+ root.view +'.html'"></div>
 
-                    <label>
-                        link :
-                        <input type="text" id="button-form-link" ng-model="btns.active.link">
-                    </label>
-                    <label>
-                        color :
-                        <input type="color" id="button-form-color" list="colors" ng-model="btns.active.color" />
-                        <datalist id="colors"></datalist>
-                    </label>
-                </div>
-            </div>
-        </div>
     </div>
 
+    <div class="clearfix"></div>
 
-    <p id="create-buttons-status">_</p>
-    <a class="btn btn-primary" id="btn-create-buttons"> create buttons </a>
-    <a class="btn btn-primary" href="/buttons.zip"> download as zip archive</a>
+    <!--  <div class="fluid-container">-->
+
+    <div class="navbar navbar-inverse abtn-navbar">
+
+        <div class="navbar-collapse collapse navbar-inverse-collapse">
+            <ul class="nav navbar-nav">
+                <li ng-class="{'active': root.view == 'config' } "><a href="#/config">  Config  </a></li>
+                <li ng-class="{'active': root.view == 'preview'} "><a href="#/preview"> Preview </a></li>
+                <li ng-class="{'active': root.view == 'markup' } "><a href="#/markup">  Markup  </a></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <!--</div>-->
+
 
 </body>

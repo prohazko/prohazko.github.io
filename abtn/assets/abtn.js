@@ -122,11 +122,68 @@ var abtn;
                 }];
         }());
 
+        app.directive('viewport', function elementInit() {
+            var height = function () {
+                return $(window).height() - $('.abtn-navbar').height();
+            };
+            var ctor = function (scope, element, attr) {
+                var offset = (+attr.viewport) || 0;
+                element.height(height() + offset);
+                $(window).resize(function () {
+                    return element.height(height() + offset);
+                });
+            };
+
+            return [function () {
+                    return ctor;
+                }];
+        }());
+
         app.run(function () {
             return console.log('start');
         });
     }
     abtn.init = init;
+})(abtn || (abtn = {}));
+var abtn;
+(function (abtn) {
+    (function (ctrl) {
+        var MarkupCtrl = (function () {
+            function MarkupCtrl(buttonStore, markupService) {
+                this.buttonStore = buttonStore;
+                this.markupService = markupService;
+                this.config = null;
+                this.markupHtml = "<blink> no markup </blink>";
+                this.config = buttonStore.getCurrent();
+
+                if (this.config) {
+                    this.markupHtml = markupService.getMarkup(this.config);
+                }
+
+                window['c_markup'] = this;
+            }
+            return MarkupCtrl;
+        })();
+        ctrl.MarkupCtrl = MarkupCtrl;
+    })(abtn.ctrl || (abtn.ctrl = {}));
+    var ctrl = abtn.ctrl;
+})(abtn || (abtn = {}));
+var abtn;
+(function (abtn) {
+    (function (ctrl) {
+        var FormCtrl = (function () {
+            function FormCtrl(buttonStore) {
+                this.buttonStore = buttonStore;
+                window['formCtrl'] = this;
+            }
+            FormCtrl.prototype.createButtons = function () {
+                console.log('create btns yo', this.buttonStore.getCurrent().width);
+            };
+            return FormCtrl;
+        })();
+        ctrl.FormCtrl = FormCtrl;
+    })(abtn.ctrl || (abtn.ctrl = {}));
+    var ctrl = abtn.ctrl;
 })(abtn || (abtn = {}));
 var abtn;
 (function (abtn) {
@@ -155,12 +212,46 @@ var abtn;
 var abtn;
 (function (abtn) {
     (function (ctrl) {
+        var defaultView = "preview";
+
         var RootCtrl = (function () {
-            function RootCtrl(buttonStore) {
-                this.buttonStore = buttonStore;
-                this.title = "zad";
-                window['z'] = this;
+            function RootCtrl($rootScope, $location) {
+                var _this = this;
+                this.$rootScope = $rootScope;
+                this.$location = $location;
+                window['c_root'] = this;
+
+                $rootScope.$on('$locationChangeSuccess', function () {
+                    return _this.onLocationChange();
+                });
+
+                // this.location.path('/' + name).replace();
+                // util.safeApply(this.scope);
+                this.view = this.getPath();
+
+                if (!this.getPath())
+                    this.setView(defaultView);
             }
+            RootCtrl.prototype.setView = function (view) {
+                console.log('setView', view);
+
+                if (view && this.view != view) {
+                    console.log('settingView', view);
+                    this.view = view;
+                    this.$location.path('/' + view);
+                    abtn.safeDigest(this.$rootScope);
+                }
+            };
+
+            RootCtrl.prototype.getPath = function () {
+                return (this.$location.path() || '').replace('/', '');
+            };
+
+            RootCtrl.prototype.onLocationChange = function () {
+                console.log('getPath', this.getPath());
+
+                this.setView(this.getPath());
+            };
             return RootCtrl;
         })();
         ctrl.RootCtrl = RootCtrl;
@@ -238,6 +329,10 @@ var abtn;
 
             return prev;
         };
+
+        Category.prototype.toJSON = function () {
+            return { buttons: this.buttons };
+        };
         return Category;
     })(abtn.BaseModel);
     abtn.Category = Category;
@@ -274,12 +369,6 @@ var abtn;
 
         Button.prototype.init = function ($el) {
             this.$el = $el;
-
-            // this.$el.width(this.$category.$config.width);
-            setTimeout(function () {
-                //     this.$el.width(this.$category.$config.width);
-                //     console.log('width', this.$el.width(), this.title);
-            }, 150);
         };
 
         Button.prototype.getName = function () {
@@ -295,6 +384,13 @@ var abtn;
                 name: this.getName()
             };
         };
+
+        Button.prototype.toJSON = function () {
+            return {
+                title: this.title,
+                color: this.color
+            };
+        };
         return Button;
     })(abtn.BaseModel);
     abtn.Button = Button;
@@ -302,12 +398,58 @@ var abtn;
 var abtn;
 (function (abtn) {
     (function (service) {
+        var MarkupService = (function () {
+            function MarkupService() {
+            }
+            MarkupService.prototype.getButtonMarkup = function (config, btn) {
+                return "<td>" + "<img> /" + "</td>";
+            };
+
+            MarkupService.prototype.getMarkup = function (config) {
+                var _this = this;
+                return config.categories.map(function (c) {
+                    return c.buttons.map(function (b) {
+                        return _this.getButtonMarkup(config, b);
+                    }).join('\n');
+                }).join('\n');
+            };
+            return MarkupService;
+        })();
+        service.MarkupService = MarkupService;
+    })(abtn.service || (abtn.service = {}));
+    var service = abtn.service;
+})(abtn || (abtn = {}));
+var abtn;
+(function (abtn) {
+    (function (service) {
         var ButtonStore = (function () {
             function ButtonStore() {
+                this.current = null;
+                this.task = null;
             }
             ButtonStore.prototype.load = function () {
-                return $.getJSON("abtn.json").then(function (cfg) {
-                    return new abtn.Config().with(cfg);
+                var _this = this;
+                if (this.task)
+                    return this.task;
+
+                return this.task = $.getJSON("abtn.json").then(function (cfg) {
+                    return _this.current = new abtn.Config().with(cfg);
+                });
+            };
+
+            ButtonStore.prototype.getCurrent = function () {
+                return this.current;
+            };
+
+            ButtonStore.prototype.saveCurrent = function () {
+                var opts = {
+                    data: JSON.stringify(this.getCurrent()),
+                    type: 'post',
+                    url: "abtn.json",
+                    contentType: 'application/json'
+                };
+                return $.ajax(opts).then(function (x) {
+                    return x;
                 });
             };
             return ButtonStore;

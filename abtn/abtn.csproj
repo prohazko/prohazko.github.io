@@ -30,12 +30,15 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="abtn.ts" />
+    <TypeScriptCompile Include="controller\MarkupCtrl.ts" />
+    <TypeScriptCompile Include="controller\FormCtrl.ts" />
     <TypeScriptCompile Include="controller\ButtonsCtrl.ts" />
     <TypeScriptCompile Include="controller\RootCtrl.ts" />
     <TypeScriptCompile Include="model\Base.ts" />
     <TypeScriptCompile Include="model\Config.ts" />
     <TypeScriptCompile Include="model\Category.ts" />
     <TypeScriptCompile Include="model\Button.ts" />
+    <TypeScriptCompile Include="service\MarkupService.ts" />
     <TypeScriptCompile Include="service\ButtonStore.ts" />
     <TypeScriptCompile Include="util.ts" />
     <TypeScriptCompile Include="_references.ts" />
